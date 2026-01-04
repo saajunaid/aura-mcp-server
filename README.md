@@ -1,6 +1,8 @@
 # AURA MCP Server
 
-AI Universal Runtime Architecure(AURA) - AI context management with intelligent model recommendations for MCP-compatible IDEs.
+_AI Universal Runtime Architecure(AURA)_
+
+AI context management with intelligent model recommendations for MCP-compatible IDEs.
 
 ## Features
 
