@@ -4,6 +4,34 @@ _AI Universal Runtime Architecture (AURA)_
 
 AI context management with intelligent model recommendations for MCP-compatible IDEs. **Includes standalone Task management for any IDE!**
 
+[![npm version](https://badge.fury.io/js/aura-mcp-server.svg)](https://www.npmjs.com/package/aura-mcp-server)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## Why AURA?
+
+> **"AI assistants forget everything between sessions. AURA remembers."**
+
+| Problem | AURA Solution |
+|---------|---------------|
+| AI forgets context when you close the chat | Automatic context preservation |
+| Re-explaining your project every session | One-time setup, forever memory |
+| Todos disappear when session ends | Persistent tasks across sessions |
+| Locked into one IDE for task tracking | Works in VS Code, Cursor, Windsurf, JetBrains |
+
+## How AURA Compares
+
+| Feature | **AURA** | **Claude Code Tasks** | **Mem0** |
+|---------|----------|----------------------|----------|
+| **IDE Support** | ✅ All MCP IDEs | ❌ Claude Code only | ❌ N/A (SDK) |
+| **Task Dependencies** | ✅ | ✅ | ❌ |
+| **Health Scoring** | ✅ 0-10 scale | ❌ | ❌ |
+| **Project Context** | ✅ | ❌ | ✅ |
+| **Version Control** | ✅ `.aura/` folder | ❌ | ❌ |
+| **Zero Infrastructure** | ✅ Just `npx` | ✅ | ❌ Needs LLM+DB |
+| **Claude Code Sync** | ✅ Optional | ✅ Native | ❌ |
+| **Open Source** | ✅ MIT | ❌ | ✅ Apache |
+| **Cost** | Free | Included | $$ (LLM API) |
+
 ## Features
 
 - 🔄 **Automatic Context Preservation** - Never lose project context across sessions
@@ -210,6 +238,10 @@ These files preserve your project context, allowing seamless continuation across
 - **Issues:** [GitHub Issues](https://github.com/saajunaid/aura-mcp-server/issues)
 - **Discussions:** [GitHub Discussions](https://github.com/saajunaid/aura-mcp-server/discussions)
 
+## Contributing
+
+Contributions welcome! Please read the [USER-GUIDE.md](USER-GUIDE.md) first.
+
 ## License
 
 MIT License - see [LICENSE](LICENSE) file for details
@@ -220,5 +252,7 @@ Created by [@saajunaid](https://github.com/saajunaid)
 
 ---
 
-**Star ⭐ this repo if AURA helps you build better!**
+**⭐ Star this repo if AURA helps you build better!**
+
+**🐦 Share on X:** [Tweet about AURA](https://twitter.com/intent/tweet?text=Just%20discovered%20AURA%20MCP%20Server%20-%20finally%20my%20AI%20assistant%20remembers%20context%20across%20sessions!%20Works%20in%20VS%20Code%2C%20Cursor%2C%20Windsurf%2C%20JetBrains.%20%F0%9F%94%A5&url=https%3A%2F%2Fgithub.com%2Fsaajunaid%2Faura-mcp-server)
 ```
