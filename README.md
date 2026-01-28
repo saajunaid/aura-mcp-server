@@ -206,6 +206,7 @@ These files preserve your project context, allowing seamless continuation across
 
 ## Support
 
+- **User Guide:** [USER-GUIDE.md](USER-GUIDE.md) - Complete setup and usage instructions
 - **Issues:** [GitHub Issues](https://github.com/saajunaid/aura-mcp-server/issues)
 - **Discussions:** [GitHub Discussions](https://github.com/saajunaid/aura-mcp-server/discussions)
 
