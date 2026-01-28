@@ -1,14 +1,18 @@
 import type { Intelligence, AuraState, HealthBreakdown } from '../types/index.js';
 import { HealthCalculator } from './health.js';
+import { TaskManager } from './tasks.js';
 
 export class IntelligenceEngine {
   private healthCalc = new HealthCalculator();
+  private taskManager = new TaskManager();
   
-  analyze(state: AuraState, messageCount: number): Intelligence {
+  async analyze(state: AuraState, messageCount: number): Promise<Intelligence> {
     const health = this.healthCalc.calculateHealth(state);
     const recommendedModel = this.recommendModel(messageCount, health.overall);
-    const nextAction = this.suggestNextAction(health, state);
-    const { show, message } = this.shouldShowFooter(health.overall, messageCount);
+    
+    // Include task-aware suggestions
+    const nextAction = await this.suggestNextAction(health, state);
+    const { show, message } = await this.shouldShowFooter(health.overall, messageCount, state);
     
     return {
       recommended_model: recommendedModel,
@@ -41,7 +45,22 @@ export class IntelligenceEngine {
     return 'Current model is suitable for your task';
   }
   
-  private suggestNextAction(health: HealthBreakdown, state: AuraState): string {
+  private async suggestNextAction(health: HealthBreakdown, state: AuraState): Promise<string> {
+    // Check for linked task list first
+    if (state.project.linked_task_list) {
+      try {
+        const taskList = await this.taskManager.getTaskList(state.project.linked_task_list);
+        if (taskList) {
+          const intelligence = this.taskManager.analyzeTaskList(taskList);
+          if (intelligence.suggestedNextTask) {
+            return `📋 Next task: ${intelligence.suggestedNextTask.title}`;
+          }
+        }
+      } catch {
+        // Fall through to default behavior
+      }
+    }
+    
     if (health.overall < 5.0) {
       return 'Critical: Run aura_diagnose to see issues';
     }
@@ -57,10 +76,29 @@ export class IntelligenceEngine {
     return 'Continue building features';
   }
   
-  private shouldShowFooter(health: number, messageCount: number): { 
-    show: boolean; 
-    message?: string 
-  } {
+  private async shouldShowFooter(
+    health: number, 
+    messageCount: number,
+    state: AuraState
+  ): Promise<{ show: boolean; message?: string }> {
+    // Check task health if linked
+    if (state.project.linked_task_list) {
+      try {
+        const taskList = await this.taskManager.getTaskList(state.project.linked_task_list);
+        if (taskList) {
+          const taskHealth = this.taskManager.calculateTaskHealth(taskList);
+          if (taskHealth.blockedTasks > 0) {
+            return {
+              show: true,
+              message: `🚫 ${taskHealth.blockedTasks} blocked task(s) - run aura_tasks action:analyze`
+            };
+          }
+        }
+      } catch {
+        // Fall through
+      }
+    }
+    
     // Silent mode (health good, session not too long)
     if (health >= 7.0 && messageCount < 20) {
       return { show: false };

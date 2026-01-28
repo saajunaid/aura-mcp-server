@@ -1,0 +1,32 @@
+# Source files (dist is published)
+src/
+
+# Development files
+*.ts
+!*.d.ts
+tsconfig.json
+
+# IDE and editor
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
+
+# Local files
+.aura/
+access-token
+*.log
+
+# Test files
+test/
+tests/
+*.test.js
+*.spec.js
+
+# Documentation source
+docs/
+
+# Node modules (should not be in git anyway)
+node_modules/

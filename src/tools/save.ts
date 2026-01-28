@@ -3,11 +3,13 @@ import { StateManager } from '../core/state.js';
 import { HealthCalculator } from '../core/health.js';
 
 const SaveSchema = z.object({
+  workspace_path: z.string(),
   message: z.string().optional()
 });
 
 export async function saveTool(args: unknown) {
-  const { message } = SaveSchema.parse(args);
+  const { workspace_path, message } = SaveSchema.parse(args);
+  process.chdir(workspace_path);
   const stateManager = new StateManager();
   
   const state = await stateManager.loadState();

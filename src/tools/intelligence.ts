@@ -18,13 +18,14 @@ export async function intelligenceTool() {
   }
   
   const engine = new IntelligenceEngine();
-  const intelligence = engine.analyze(state, state.session.message_count);
+  const intelligence = await engine.analyze(state, state.session.message_count);
   
   return {
     content: [{
       type: "text",
       text: JSON.stringify({
         success: true,
+        linked_task_list: state.project.linked_task_list || null,
         ...intelligence
       })
     }]

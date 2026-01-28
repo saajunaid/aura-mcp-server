@@ -5,6 +5,10 @@ export class Logger {
     console.error(`${this.prefix} ${message}`, ...args);
   }
   
+  warn(message: string, ...args: any[]): void {
+    console.error(`${this.prefix} WARN: ${message}`, ...args);
+  }
+  
   error(message: string, error?: any): void {
     console.error(`${this.prefix} ERROR: ${message}`, error);
   }

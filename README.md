@@ -1,8 +1,8 @@
 # AURA MCP Server
 
-_AI Universal Runtime Architecure(AURA)_
+_AI Universal Runtime Architecture (AURA)_
 
-AI context management with intelligent model recommendations for MCP-compatible IDEs.
+AI context management with intelligent model recommendations for MCP-compatible IDEs. **Includes standalone Task management for any IDE!**
 
 ## Features
 
@@ -12,6 +12,7 @@ AI context management with intelligent model recommendations for MCP-compatible 
 - 💾 **Automatic Backups** - Session state backed up automatically
 - 🔍 **Pattern Detection** - Learns your tech stack and coding patterns
 - ⚡ **Zero Configuration** - Works out of the box
+- 📋 **AURA Tasks** - Standalone task management for any MCP-compatible IDE
 
 ## Installation
 
@@ -65,6 +66,90 @@ Once configured, AURA provides these tools to your AI assistant:
 | `aura_intelligence` | Get smart suggestions for next steps and model recommendations |
 | `aura_diagnose` | Deep health analysis with actionable fixes |
 | `aura_rollback` | Restore from automatic backups |
+| `aura_tasks` | Standalone task management for any IDE |
+
+## AURA Tasks
+
+AURA Tasks provides **standalone task management** for any MCP-compatible IDE - not just Claude Code! Inspired by [Claude Code's Tasks system](https://x.com/trq212/status/2014480496013803643), AURA brings the same power to:
+
+- ✅ **VS Code with Copilot** 
+- ✅ **Cursor**
+- ✅ **Windsurf**
+- ✅ **JetBrains IDEs**
+- ✅ **Claude Code** (with optional sync)
+
+### Storage Options
+
+| Mode | Location | Use Case |
+|------|----------|----------|
+| `project` (default) | `.aura/tasks/` | Version-controllable, project-specific |
+| `claude` | `~/.claude/tasks/` | Cross-project, Claude Code native |
+| `both` | Both locations | Full compatibility |
+
+### Task Features
+
+| Feature | Description |
+|---------|-------------|
+| **Dependencies** | Tasks can depend on other tasks |
+| **Status Tracking** | pending → in_progress → blocked → completed |
+| **Priority Levels** | low, medium, high, critical |
+| **Health Scoring** | 0-10 health score for task lists |
+| **Blocker Analysis** | Identify what's blocking progress |
+| **Todo Sync** | Sync current session todos to persistent tasks |
+| **Claude Code Sync** | Optional export/import with Claude Code storage |
+
+### Task Actions
+
+```
+aura_tasks action:get_or_create       # Get or create project task list
+aura_tasks action:list_task_lists     # List all task lists
+aura_tasks action:create_task_list    # Create a new task list
+aura_tasks action:create_task         # Add a task with dependencies
+aura_tasks action:update_status       # Mark tasks complete/blocked
+aura_tasks action:analyze             # Get smart recommendations
+aura_tasks action:health              # View task health metrics
+aura_tasks action:sync_todos          # Sync current session todos to tasks
+aura_tasks action:sync_from_aura      # Import AURA next_steps as tasks
+aura_tasks action:sync_to_claude      # Export to Claude Code storage
+aura_tasks action:import_from_claude  # Import from Claude Code storage
+aura_tasks action:set_storage_mode    # Change storage mode
+```
+
+### Quick Start: Task Workflow
+
+```bash
+# 1. Get or create a project task list
+aura_tasks action:get_or_create
+
+# 2. Create tasks
+aura_tasks action:create_task title:"Implement user auth" priority:high
+aura_tasks action:create_task title:"Add tests" dependencies:["task-xxx"]
+
+# 3. Work on tasks
+aura_tasks action:update_status task_id:task-xxx status:in_progress
+aura_tasks action:update_status task_id:task-xxx status:completed
+
+# 4. Sync session todos to persistent tasks (when needed)
+aura_tasks action:sync_todos todos:[{title:"Fix bug", status:"in-progress"}]
+
+# 5. Optionally sync to Claude Code
+aura_tasks action:sync_to_claude task_list_id:tl-xxx
+```
+
+### Claude Code Compatibility
+
+AURA Tasks works seamlessly with Claude Code:
+
+```bash
+# Export a task list to Claude Code
+aura_tasks action:sync_to_claude task_list_id:tl-xxx
+
+# Import a task list from Claude Code
+aura_tasks action:import_from_claude task_list_id:tl-xxx
+
+# Start Claude Code with a specific task list
+CLAUDE_CODE_TASK_LIST_ID=tl-xxx claude
+```
 
 ## How It Works
 
@@ -73,7 +158,8 @@ AURA creates a `.aura/` directory in your project:
 .aura/
 ├── state.json       # Project state and session data
 ├── memory.md        # Human-readable context
-└── backups/         # Automatic backup snapshots
+├── backups/         # Automatic backup snapshots
+└── tasks/           # Task lists (AURA Tasks)
 ```
 
 These files preserve your project context, allowing seamless continuation across:
@@ -89,6 +175,15 @@ These files preserve your project context, allowing seamless continuation across
 3. **Save progress** - Run `aura_save` before ending your session
 4. **Resume later** - AURA automatically loads context when you return
 5. **Track health** - Use `aura_diagnose` to identify code quality issues
+
+## Example: Task-Based Workflow
+
+1. **Get/create task list** - `aura_tasks action:get_or_create` creates project task list
+2. **Add tasks** - Create tasks with priorities and dependencies
+3. **Sync session todos** - `aura_tasks action:sync_todos` saves todos persistently
+4. **Work on tasks** - Update status as you progress
+5. **Complete tasks** - Dependent tasks auto-unblock when blockers complete
+6. **Optional: Share with Claude Code** - Sync to `~/.claude/tasks` for cross-IDE use
 
 ## Requirements
 
